@@ -1,0 +1,18 @@
+{
+  "name": "vimeo-project",
+  "version": "1.0.0",
+  "description": "First project built with React. Response to take home test given by Vimeo as part of their interview process.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack -d --watch",
+    "build": "webpack -p"
+  },
+  "author": "Alex Hannan",
+  "license": "ISC",
+  "dependencies": {
+    "babel-loader": "6.2.3",
+    "babel-preset-es2015": "6.5.0",
+    "babel-preset-react": "6.5.0",
+    "webpack": "1.12.13"
+  }
+}
