@@ -14,9 +14,9 @@ var config = {
 	module: {
 		loaders: [
 			{
-				loader: 'babel',	// run babel loader
-				test: '/\.jsx?/',	// on .js and .jsx files
-				include: APP_DIR	// in this directory
+				test: /\.jsx?/,		// on .js and .jsx files
+				include: APP_DIR,	// in this directory
+				loader: 'babel'		// run babel loader	
 			}
 		]
 	}
