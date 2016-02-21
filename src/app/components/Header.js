@@ -6,8 +6,7 @@ var categories = ['animation', 'art', 'cameratechniques', 'comedy', 'documentary
 var Header = React.createClass({
 	propTypes: {
 		handleSubmit: React.PropTypes.func,
-		handleClick: React.PropTypes.func,
-		authUrl: React.PropTypes.string
+		handleClick: React.PropTypes.func
 	},
 	onSubmit(event) {
 		event.preventDefault();		// prevent default form action
@@ -24,7 +23,6 @@ var Header = React.createClass({
 		var buttons = categories.map(el => <button key={el} onClick={this.onClick.bind(null, el)}>{el}</button>);
 		return <div>
 			<h1>Vimeo Channel Surfer</h1>
-			<a href={this.props.authUrl}>Authorize to use Advanced Features</a>
 			{buttons}
 			<form onSubmit={this.onSubmit}>
 				<input ref="input" type="text" placeholder="Search for channel..."/>

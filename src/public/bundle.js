@@ -72,48 +72,30 @@
 	var App = _react2.default.createClass({
 		displayName: 'App',
 		getInitialState: function getInitialState() {
-			if (location.search !== '') {
-				// fires off when returning from authorization
-	
-				// chunk out search params to only include their values
-				var searchParams = location.search.slice(1).split('&').map(function (param) {
-					return param.split('=')[1];
-				});
-	
-				// first param is state, second param is the auth code
-				var state = JSON.parse(decodeURIComponent(searchParams[0]));
-				state.code = searchParams[1];
-	
-				return state;
-			}
 			return {
 				loaded: false
 			};
 		},
-		parseAuthUrl: function parseAuthUrl() {
-			var authUrl = 'https://api.vimeo.com/oauth/authorize';
-			authUrl += '?response_type=code';
-			authUrl += '&client_id=9765dae2612e07ec845492c2a95459d2fdb54a87';
-			authUrl += '&redirect_uri=http://localhost:3000/';
-			authUrl += '&scope=interact';
-			authUrl += '&state=' + JSON.stringify(this.state);
-	
-			return authUrl;
-		},
 		getData: function getData(url, channel) {
 			var _this = this;
 	
+			this.setState({
+				loaded: false
+			});
 			_xhr2.default.getJSON(url, function (err, data) {
 				if (err) {
+					// if error is received
 					return _this.setState({
 						error: 'That channel doesn\'t exist.'
 					});
 				}
 				console.log(data);
-				if (data.error) {
-					return _this.setState({
-						error: 'Woops, you haven\'t authenticated yet.'
-					});
+				// when called with a category, parse the resulting object
+				if (!data.length) {
+					var channels = data.data;
+					var randomIndex = Math.round(Math.random() * channels.length);
+					channel = channels[randomIndex].link.split('/').splice(-1).toString();
+					return _this.loadChannel(channel);
 				}
 				_this.setState({
 					loaded: true,
@@ -130,9 +112,8 @@
 		},
 		loadRandom: function loadRandom(category) {
 			// load a random channel (from a category button)
-			console.log('loading random');
-			var url = 'https://api.vimeo.com/categories/comedy/channels';
-			this.getData(url, category);
+			var url = 'https://api.vimeo.com/categories/' + category + '/channels?access_token=b372ff92a3caec7b11604f51bad16fc7';
+			this.getData(url);
 		},
 		render: function render() {
 			console.log(this.state);
@@ -153,18 +134,18 @@
 				return _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom, authUrl: this.parseAuthUrl() }),
+					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
 					_react2.default.createElement(
 						'h3',
 						null,
-						'Enter a channel name.'
+						'Loading...'
 					)
 				);
 			}
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom, authUrl: this.parseAuthUrl() }),
+				_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
 				_react2.default.createElement(_VideoList2.default, { list: this.state.list, channel: this.state.channel })
 			);
 		}
@@ -20416,8 +20397,7 @@
 	
 		propTypes: {
 			handleSubmit: _react2.default.PropTypes.func,
-			handleClick: _react2.default.PropTypes.func,
-			authUrl: _react2.default.PropTypes.string
+			handleClick: _react2.default.PropTypes.func
 		},
 		onSubmit: function onSubmit(event) {
 			event.preventDefault(); // prevent default form action
@@ -20447,11 +20427,6 @@
 					'h1',
 					null,
 					'Vimeo Channel Surfer'
-				),
-				_react2.default.createElement(
-					'a',
-					{ href: this.props.authUrl },
-					'Authorize to use Advanced Features'
 				),
 				buttons,
 				_react2.default.createElement(

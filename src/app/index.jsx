@@ -6,44 +6,27 @@ import xhr from './lib/xhr.js';
 
 var App = React.createClass({
 	getInitialState() {
-		if (location.search !== ''){	// fires off when returning from authorization
-
-			// chunk out search params to only include their values
-			var searchParams = location.search.slice(1).split('&')
-				.map(param => param.split('=')[1]);
-
-			// first param is state, second param is the auth code
-			var state = JSON.parse(decodeURIComponent(searchParams[0]));
-			state.code = searchParams[1];
-
-			return state;
-		}
 		return {
 			loaded: false
 		}
 	},
-	parseAuthUrl() {
-		var authUrl = 'https://api.vimeo.com/oauth/authorize';
-		authUrl += '?response_type=code';
-		authUrl += '&client_id=9765dae2612e07ec845492c2a95459d2fdb54a87';
-		authUrl += '&redirect_uri=http://localhost:3000/';
-		authUrl += '&scope=interact';
-		authUrl += '&state=' + JSON.stringify(this.state);
-
-		return authUrl;
-	},
 	getData(url, channel) {
+		this.setState({
+			loaded: false
+		});
 		xhr.getJSON(url, (err, data) => {
-			if (err){
+			if (err){		// if error is received
 				return this.setState({
 					error: 'That channel doesn\'t exist.'
 				});
 			}
 			console.log(data);
-			if (data.error){
-				return this.setState({
-					error: 'Woops, you haven\'t authenticated yet.'
-				});
+			// when called with a category, parse the resulting object
+			if (!data.length){
+				var channels = data.data;
+				var randomIndex = Math.round(Math.random()*channels.length);
+				channel = channels[randomIndex].link.split('/').splice(-1).toString();
+				return this.loadChannel(channel);
 			}
 			this.setState({
 				loaded: true,
@@ -58,9 +41,8 @@ var App = React.createClass({
 		this.getData(url, channel);
 	},
 	loadRandom(category){	// load a random channel (from a category button)
-		console.log('loading random');
-		var url = 'https://api.vimeo.com/categories/comedy/channels';
-		this.getData(url, category);
+		var url = 'https://api.vimeo.com/categories/' + category + '/channels?access_token=b372ff92a3caec7b11604f51bad16fc7';
+		this.getData(url);
 	},
 	render() {
 		console.log(this.state);
@@ -73,12 +55,12 @@ var App = React.createClass({
 		}
 		if (!this.state.loaded){
 			return <div>
-				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={this.parseAuthUrl()} />
-				<h3>Enter a channel name.</h3>
+				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
+				<h3>Loading...</h3>
 			</div>
 		}
 		return <div>
-			<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={this.parseAuthUrl()} />
+			<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
 			<VideoList list={this.state.list} channel={this.state.channel} />
 		</div>;
 	}
