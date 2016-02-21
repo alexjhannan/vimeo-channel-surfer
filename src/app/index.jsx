@@ -1,6 +1,9 @@
 import React from 'react';
 import {render} from 'react-dom';
-import VideoList from './components/VideoList.js'
+import VideoList from './components/VideoList.js';
+import xhr from './lib/xhr.js';
+
+xhr.getJSON('http://vimeo.com/api/v2/channel/staffpicks/videos.json', (err, data) => console.log(data));
 
 var list = [{name:1}, {name:2}, {name:3}];
 

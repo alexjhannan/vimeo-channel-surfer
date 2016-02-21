@@ -59,7 +59,15 @@
 	
 	var _VideoList2 = _interopRequireDefault(_VideoList);
 	
+	var _xhr = __webpack_require__(/*! ./lib/xhr.js */ 161);
+	
+	var _xhr2 = _interopRequireDefault(_xhr);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	_xhr2.default.getJSON('http://vimeo.com/api/v2/channel/staffpicks/videos.json', function (err, data) {
+		return console.log(data);
+	});
 	
 	var list = [{ name: 1 }, { name: 2 }, { name: 3 }];
 	
@@ -20197,6 +20205,31 @@
 	});
 	
 	module.exports = VideoList;
+
+/***/ },
+/* 161 */
+/*!****************************!*\
+  !*** ./src/app/lib/xhr.js ***!
+  \****************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	// lib syntax taking lovingly paraphrased from the frontend masters React workshop
+	// simple fxn to handle AJAX requests
+	exports.getJSON = function (url, cb) {
+	  var req = new XMLHttpRequest(); // instantiate new XHR
+	  req.onload = function () {
+	    // set event listeners
+	    if (req.status === 404) {
+	      cb(new Error('404 Not Found')); // handle 404
+	    } else {
+	        cb(null, JSON.parse(req.response)); // else send data to cb
+	      }
+	  };
+	  req.open('GET', url);
+	  req.send();
+	};
 
 /***/ }
 /******/ ]);
