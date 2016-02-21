@@ -8,7 +8,7 @@ import xhr from './lib/xhr.js';
 var authUrl = 'https://api.vimeo.com/oauth/authorize';
 authUrl += '?response_type=code';
 authUrl += '&client_id=9765dae2612e07ec845492c2a95459d2fdb54a87';
-authUrl += '&redirect_uri=file:///Users/AlexMac/Projects/vimeo-project/src/index.html?';
+authUrl += '&redirect_uri=http://localhost:3000/';
 authUrl += '&scope=interact';
 authUrl += '&state=12345'
 
