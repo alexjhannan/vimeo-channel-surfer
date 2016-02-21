@@ -65,24 +65,46 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_xhr2.default.getJSON('http://vimeo.com/api/v2/channel/staffpicks/videos.json', function (err, data) {
-		return console.log(data);
-	});
-	
-	var list = [{ name: 1 }, { name: 2 }, { name: 3 }];
+	var targetUrl = 'http://vimeo.com/api/v2/channel/staffpicks/videos.json';
 	
 	var App = _react2.default.createClass({
 		displayName: 'App',
+		getInitialState: function getInitialState() {
+			return {
+				loaded: false
+			};
+		},
+		loadApi: function loadApi() {
+			var _this = this;
+	
+			_xhr2.default.getJSON(targetUrl, function (err, data) {
+				if (err) {
+					return console.log(err);
+				}
+				_this.setState({
+					loaded: true,
+					list: data
+				});
+			});
+		},
 		render: function render() {
+			if (!this.state.loaded) {
+				this.loadApi();
+				return _react2.default.createElement(
+					'div',
+					null,
+					'Loading'
+				);
+			}
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(
 					'h1',
 					null,
-					'Hello from React'
+					'Vimeo Channel Listing'
 				),
-				_react2.default.createElement(_VideoList2.default, { list: list })
+				_react2.default.createElement(_VideoList2.default, { list: this.state.list })
 			);
 		}
 	});
@@ -20192,8 +20214,8 @@
 			var videos = this.props.list.map(function (el) {
 				return _react2.default.createElement(
 					'li',
-					{ key: el.name },
-					el.name
+					{ key: el.id },
+					el.id
 				);
 			});
 			return _react2.default.createElement(

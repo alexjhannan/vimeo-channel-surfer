@@ -7,8 +7,8 @@ var VideoList = React.createClass({
 	},
 	render() {
 		var videos = this.props.list.map(el => {
-			return <li key={el.name}>
-				{el.name}
+			return <li key={el.id}>
+				{el.id}
 			</li>
 		});
 		return <ul>
