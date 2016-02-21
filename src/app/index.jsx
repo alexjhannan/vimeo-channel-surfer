@@ -55,28 +55,26 @@ var App = React.createClass({
 	render() {
 		console.log(this.state);
 
+		var result = [];	// holds all elements to be rendered (allows for conditional pushing)
+		
+		result.push(<Header key="header" handleSubmit={this.loadChannel} handleClick={this.loadRandom} />);
+
+		// result always has the header (above), but the next elements are chosen by this conditional tree
+		// note that each element has a unique key, necessary for React's virtual DOM to work properly
 		if(this.state.init){
-			return <div>
-				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
-				<h3>Enter a channel name in the search bar, or click on a button to find a random channel.</h3>
-			</div>
+			result.push(<h3 key="init">Enter a channel name in the search bar, or click on a button to find a random channel.</h3>);
+		} else if (this.state.error){
+			result.push(<h3 key="error">"pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt"</h3>);
+			result.push(<p key="error2">"That channel was not found. I'm sorry, Dave."</p>);
+		} else if (!this.state.loaded){
+			result.push(<h3 key="loading">Loading...</h3>);
+		} else {
+			result.push(<VideoList key="videolist" list={this.state.list} channel={this.state.channel} />);
 		}
-		if (this.state.error){
-			return <div>
-				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
-				<h3>pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt</h3>
-				<p>That channel was not found. I'm sorry, Dave.</p>
-			</div>
-		}
-		if (!this.state.loaded){
-			return <div>
-				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
-				<h3>Loading...</h3>
-			</div>
-		}
+
+		// state-dependent result is rendered out here
 		return <div>
-			<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
-			<VideoList list={this.state.list} channel={this.state.channel} />
+			{result}
 		</div>;
 	}
 });

@@ -126,52 +126,44 @@
 		render: function render() {
 			console.log(this.state);
 	
+			var result = []; // holds all elements to be rendered (allows for conditional pushing)
+	
+			result.push(_react2.default.createElement(_Header2.default, { key: 'header', handleSubmit: this.loadChannel, handleClick: this.loadRandom }));
+	
+			// result always has the header (above), but the next elements are chosen by this conditional tree
+			// note that each element has a unique key, necessary for React's virtual DOM to work properly
 			if (this.state.init) {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
-					_react2.default.createElement(
-						'h3',
-						null,
-						'Enter a channel name in the search bar, or click on a button to find a random channel.'
-					)
-				);
+				result.push(_react2.default.createElement(
+					'h3',
+					{ key: 'init' },
+					'Enter a channel name in the search bar, or click on a button to find a random channel.'
+				));
+			} else if (this.state.error) {
+				result.push(_react2.default.createElement(
+					'h3',
+					{ key: 'error' },
+					'"pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt"'
+				));
+				result.push(_react2.default.createElement(
+					'p',
+					{ key: 'error2' },
+					'"That channel was not found. I\'m sorry, Dave."'
+				));
+			} else if (!this.state.loaded) {
+				result.push(_react2.default.createElement(
+					'h3',
+					{ key: 'loading' },
+					'Loading...'
+				));
+			} else {
+				result.push(_react2.default.createElement(_VideoList2.default, { key: 'videolist', list: this.state.list, channel: this.state.channel }));
 			}
-			if (this.state.error) {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
-					_react2.default.createElement(
-						'h3',
-						null,
-						'pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt'
-					),
-					_react2.default.createElement(
-						'p',
-						null,
-						'That channel was not found. I\'m sorry, Dave.'
-					)
-				);
-			}
-			if (!this.state.loaded) {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
-					_react2.default.createElement(
-						'h3',
-						null,
-						'Loading...'
-					)
-				);
-			}
+	
+			// state-dependent result is rendered out here
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
-				_react2.default.createElement(_VideoList2.default, { list: this.state.list, channel: this.state.channel })
+				result
 			);
 		}
 	});
