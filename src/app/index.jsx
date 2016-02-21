@@ -64,12 +64,12 @@ var App = React.createClass({
 		// result always has the header (above), but the next elements are chosen by this conditional tree
 		// note that each element has a unique key, necessary for React's virtual DOM to work properly
 		if(this.state.init){
-			result.push(<h3 key="init">Enter a channel name in the search bar, or click on a button to find a random channel.</h3>);
+			result.push(<h3 style={styles.text} key="init">Enter a channel name in the search bar, or click on a button to find a random channel.</h3>);
 		} else if (this.state.error){
-			result.push(<h3 key="error">"pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt"</h3>);
-			result.push(<p key="error2">"That channel was not found. I'm sorry, Dave."</p>);
+			result.push(<h3 style={styles.text} key="error">pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt</h3>);
+			result.push(<p style={styles.text} key="error2">That channel was not found. I'm sorry, Dave.</p>);
 		} else if (!this.state.loaded){
-			result.push(<h3 key="loading">Loading...</h3>);
+			result.push(<h3 style={styles.text} key="loading">Loading...</h3>);
 		} else {
 			result.push(<VideoList key="videolist" list={this.state.list} channel={this.state.channel} />);
 		}
@@ -80,5 +80,11 @@ var App = React.createClass({
 		</div>;
 	}
 });
+
+var styles = {};
+
+styles.text = {
+	textAlign: 'center'
+}
 
 render(<App/>, document.getElementById('container'));

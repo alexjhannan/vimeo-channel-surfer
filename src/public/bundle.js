@@ -138,24 +138,24 @@
 			if (this.state.init) {
 				result.push(_react2.default.createElement(
 					'h3',
-					{ key: 'init' },
+					{ style: styles.text, key: 'init' },
 					'Enter a channel name in the search bar, or click on a button to find a random channel.'
 				));
 			} else if (this.state.error) {
 				result.push(_react2.default.createElement(
 					'h3',
-					{ key: 'error' },
-					'"pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt"'
+					{ style: styles.text, key: 'error' },
+					'pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt'
 				));
 				result.push(_react2.default.createElement(
 					'p',
-					{ key: 'error2' },
-					'"That channel was not found. I\'m sorry, Dave."'
+					{ style: styles.text, key: 'error2' },
+					'That channel was not found. I\'m sorry, Dave.'
 				));
 			} else if (!this.state.loaded) {
 				result.push(_react2.default.createElement(
 					'h3',
-					{ key: 'loading' },
+					{ style: styles.text, key: 'loading' },
 					'Loading...'
 				));
 			} else {
@@ -170,6 +170,12 @@
 			);
 		}
 	});
+	
+	var styles = {};
+	
+	styles.text = {
+		textAlign: 'center'
+	};
 	
 	(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('container'));
 
