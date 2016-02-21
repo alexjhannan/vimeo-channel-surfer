@@ -59,6 +59,10 @@
 	
 	var _VideoList2 = _interopRequireDefault(_VideoList);
 	
+	var _Header = __webpack_require__(/*! ./components/Header.js */ 162);
+	
+	var _Header2 = _interopRequireDefault(_Header);
+	
 	var _xhr = __webpack_require__(/*! ./lib/xhr.js */ 161);
 	
 	var _xhr2 = _interopRequireDefault(_xhr);
@@ -94,17 +98,18 @@
 				return _react2.default.createElement(
 					'div',
 					null,
-					'Loading'
+					_react2.default.createElement(_Header2.default, null),
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Loading...'
+					)
 				);
 			}
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(
-					'h1',
-					null,
-					'Vimeo Channel Listing'
-				),
+				_react2.default.createElement(_Header2.default, null),
 				_react2.default.createElement(_VideoList2.default, { list: this.state.list })
 			);
 		}
@@ -20328,6 +20333,40 @@
 	  req.open('GET', url);
 	  req.send();
 	};
+
+/***/ },
+/* 162 */
+/*!**************************************!*\
+  !*** ./src/app/components/Header.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(/*! react-dom */ 158);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Header = _react2.default.createClass({
+		displayName: 'Header',
+		render: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Vimeo Channeler'
+				)
+			);
+		}
+	});
+	
+	module.exports = Header;
 
 /***/ }
 /******/ ]);

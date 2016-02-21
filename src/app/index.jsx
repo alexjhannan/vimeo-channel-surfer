@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import VideoList from './components/VideoList.js';
+import Header from './components/Header.js';
 import xhr from './lib/xhr.js';
 
 var targetUrl = 'http://vimeo.com/api/v2/channel/staffpicks/videos.json';
@@ -26,10 +27,13 @@ var App = React.createClass({
 	render() {
 		if (!this.state.loaded){
 			this.loadApi();
-			return <div>Loading</div>
+			return <div>
+				<Header />
+				<h3>Loading...</h3>
+			</div>
 		}
 		return <div>
-			<h1>Vimeo Channel Listing</h1>
+			<Header />
 			<VideoList list={this.state.list} />
 		</div>;
 	}
