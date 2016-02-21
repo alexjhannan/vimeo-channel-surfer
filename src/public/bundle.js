@@ -20302,58 +20302,60 @@
 	
 			var videos = this.props.list.map(function (video) {
 				// parses the given video list out into UI components
-				// set default values for some props
+				// set default values for props that may be undefined
 				video.stats_number_of_plays = video.stats_number_of_plays || 0;
 				video.stats_number_of_comments = video.stats_number_of_comments || 0;
 				video.stats_number_of_likes = video.stats_number_of_likes || 0;
 				video.tags = video.tags || 'None';
 	
-				return _react2.default.createElement(
-					'li',
-					{ key: video.id, style: styles.listItem },
-					_react2.default.createElement(
-						'h3',
-						{ style: styles.text },
-						video.title
-					),
+				return (// builds out a div for each video
 					_react2.default.createElement(
 						'div',
-						{ style: styles.imageBox },
+						{ key: video.id, style: styles.listItem },
 						_react2.default.createElement(
-							'a',
-							{ href: video.url },
-							_react2.default.createElement('img', { src: video.thumbnail_large, style: styles.image })
-						)
-					),
-					_react2.default.createElement(
-						'p',
-						{ style: styles.text },
-						'Comments: ' + video.stats_number_of_comments,
-						' || ',
-						'Likes: ' + video.stats_number_of_likes,
-						' || ',
-						'Plays: ' + video.stats_number_of_plays,
-						' || ',
-						'Duration: ' + video.duration + ' seconds'
-					),
-					_react2.default.createElement(
-						'p',
-						{ style: styles.text },
-						'Tags: ' + video.tags
-					),
-					_react2.default.createElement(
-						'p',
-						{ style: styles.text },
-						'Uploaded: ' + video.upload_date
-					),
-					_react2.default.createElement(
-						'p',
-						{ style: styles.text },
-						'Posted by:  ',
+							'h3',
+							{ style: styles.text },
+							video.title
+						),
 						_react2.default.createElement(
-							'a',
-							{ style: styles.link, href: video.user_url, target: '_blank' },
-							video.user_name
+							'div',
+							{ style: styles.imageBox },
+							_react2.default.createElement(
+								'a',
+								{ href: video.url },
+								_react2.default.createElement('img', { src: video.thumbnail_large, style: styles.image })
+							)
+						),
+						_react2.default.createElement(
+							'p',
+							{ style: styles.text },
+							'Comments: ' + video.stats_number_of_comments,
+							' || ',
+							'Likes: ' + video.stats_number_of_likes,
+							' || ',
+							'Plays: ' + video.stats_number_of_plays,
+							' || ',
+							'Duration: ' + video.duration + ' seconds'
+						),
+						_react2.default.createElement(
+							'p',
+							{ style: styles.text },
+							'Tags: ' + video.tags
+						),
+						_react2.default.createElement(
+							'p',
+							{ style: styles.text },
+							'Uploaded: ' + video.upload_date
+						),
+						_react2.default.createElement(
+							'p',
+							{ style: styles.text },
+							'Posted by:  ',
+							_react2.default.createElement(
+								'a',
+								{ style: styles.link, href: video.user_url, target: '_blank' },
+								video.user_name
+							)
 						)
 					)
 				);

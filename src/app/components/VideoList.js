@@ -12,21 +12,21 @@ var VideoList = React.createClass({
 		}
 
 		var videos = this.props.list.map(video => {		// parses the given video list out into UI components
-			// set default values for some props
+			// set default values for props that may be undefined
 			video.stats_number_of_plays = video.stats_number_of_plays || 0;
 			video.stats_number_of_comments = video.stats_number_of_comments || 0;
 			video.stats_number_of_likes = video.stats_number_of_likes || 0;
 			video.tags = video.tags || 'None';
 
-			return (
-				<li key={video.id} style={styles.listItem}>
+			return (	// builds out a div for each video
+				<div key={video.id} style={styles.listItem}>
 					<h3 style={styles.text}>{video.title}</h3>
 					<div style={styles.imageBox}><a href={video.url}><img src={video.thumbnail_large} style={styles.image} /></a></div>
 					<p style={styles.text}>{'Comments: ' + video.stats_number_of_comments} || {'Likes: ' + video.stats_number_of_likes} || {'Plays: ' + video.stats_number_of_plays} || {'Duration: ' + video.duration + ' seconds'}</p>
 					<p style={styles.text}>{'Tags: ' + video.tags}</p>
 					<p style={styles.text}>{'Uploaded: ' + video.upload_date}</p>
 					<p style={styles.text}>Posted by:  <a style={styles.link} href={video.user_url} target='_blank'>{video.user_name}</a></p>
-				</li>
+				</div>
 			);
 			
 		});
