@@ -25,7 +25,7 @@ var Header = React.createClass({
 			<h1 style={styles.header}>Vimeo Channel Surfer</h1>
 			<div style={styles.btnBox}>{buttons}</div>
 			<form onSubmit={this.onSubmit}>
-				<input style={styles.search} ref="input" type="text" placeholder="Search for channel..."/>
+				<input style={styles.search} ref="input" type="text" placeholder="search for channel by name"/>
 			</form>
 		</div>
 	}
@@ -51,7 +51,9 @@ styles.btn = {
 	height: '30px',
 	cursor: 'pointer',
 	fontFamily: 'Inconsolata',
-	margin: '2px'
+	margin: '2px',
+	backgroundColor: '#222',
+	color: '#d9d9d9'
 };
 
 styles.search = {

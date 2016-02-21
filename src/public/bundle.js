@@ -145,7 +145,7 @@
 				result.push(_react2.default.createElement(
 					'h3',
 					{ style: styles.text, key: 'init' },
-					'Enter a channel name in the search bar, or click on a button to find a random channel.'
+					'Enter a channel name in the search bar, or click on a category button to find a random channel from that category.'
 				));
 			} else if (this.state.error) {
 				result.push(_react2.default.createElement(
@@ -162,7 +162,7 @@
 				result.push(_react2.default.createElement(
 					'h3',
 					{ style: styles.text, key: 'loading' },
-					'Loading...'
+					'...loading...'
 				));
 			} else {
 				result.push(_react2.default.createElement(_VideoList2.default, { key: 'videolist', list: this.state.list, channel: this.state.channel }));
@@ -20319,42 +20319,42 @@
 						),
 						_react2.default.createElement(
 							'div',
-							{ style: styles.imageBox },
+							{ style: styles.contentBox },
 							_react2.default.createElement(
 								'a',
 								{ href: video.url },
 								_react2.default.createElement('img', { src: video.thumbnail_large, style: styles.image })
-							)
-						),
-						_react2.default.createElement(
-							'p',
-							{ style: styles.text },
-							'Comments: ' + video.stats_number_of_comments,
-							' || ',
-							'Likes: ' + video.stats_number_of_likes,
-							' || ',
-							'Plays: ' + video.stats_number_of_plays,
-							' || ',
-							'Duration: ' + video.duration + ' seconds'
-						),
-						_react2.default.createElement(
-							'p',
-							{ style: styles.text },
-							'Tags: ' + video.tags
-						),
-						_react2.default.createElement(
-							'p',
-							{ style: styles.text },
-							'Uploaded: ' + video.upload_date
-						),
-						_react2.default.createElement(
-							'p',
-							{ style: styles.text },
-							'Posted by:  ',
+							),
 							_react2.default.createElement(
-								'a',
-								{ style: styles.link, href: video.user_url, target: '_blank' },
-								video.user_name
+								'p',
+								{ style: styles.text },
+								'Comments: ' + video.stats_number_of_comments,
+								' || ',
+								'Likes: ' + video.stats_number_of_likes,
+								' || ',
+								'Plays: ' + video.stats_number_of_plays,
+								' || ',
+								'Duration: ' + video.duration + ' seconds'
+							),
+							_react2.default.createElement(
+								'p',
+								{ style: styles.text },
+								'Tags: ' + video.tags
+							),
+							_react2.default.createElement(
+								'p',
+								{ style: styles.text },
+								'Uploaded: ' + video.upload_date
+							),
+							_react2.default.createElement(
+								'p',
+								{ style: styles.text },
+								'Posted by:  ',
+								_react2.default.createElement(
+									'a',
+									{ style: styles.link, href: video.user_url, target: '_blank' },
+									video.user_name
+								)
 							)
 						)
 					)
@@ -20366,7 +20366,7 @@
 				_react2.default.createElement(
 					'h3',
 					{ style: styles.header },
-					'Currently tuned to: ',
+					'tuned to: ',
 					_react2.default.createElement(
 						'em',
 						null,
@@ -20397,7 +20397,7 @@
 		color: '#d9d9d9'
 	};
 	
-	styles.imageBox = {
+	styles.contentBox = {
 		width: '60%',
 		margin: '0 auto'
 	};
@@ -20480,7 +20480,7 @@
 				_react2.default.createElement(
 					'form',
 					{ onSubmit: this.onSubmit },
-					_react2.default.createElement('input', { style: styles.search, ref: 'input', type: 'text', placeholder: 'Search for channel...' })
+					_react2.default.createElement('input', { style: styles.search, ref: 'input', type: 'text', placeholder: 'search for channel by name' })
 				)
 			);
 		}
@@ -20506,7 +20506,9 @@
 		height: '30px',
 		cursor: 'pointer',
 		fontFamily: 'Inconsolata',
-		margin: '2px'
+		margin: '2px',
+		backgroundColor: '#222',
+		color: '#d9d9d9'
 	};
 	
 	styles.search = {

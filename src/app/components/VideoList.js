@@ -21,17 +21,19 @@ var VideoList = React.createClass({
 			return (	// builds out a div for each video
 				<div key={video.id} style={styles.listItem}>
 					<h3 style={styles.text}>{video.title}</h3>
-					<div style={styles.imageBox}><a href={video.url}><img src={video.thumbnail_large} style={styles.image} /></a></div>
-					<p style={styles.text}>{'Comments: ' + video.stats_number_of_comments} || {'Likes: ' + video.stats_number_of_likes} || {'Plays: ' + video.stats_number_of_plays} || {'Duration: ' + video.duration + ' seconds'}</p>
-					<p style={styles.text}>{'Tags: ' + video.tags}</p>
-					<p style={styles.text}>{'Uploaded: ' + video.upload_date}</p>
-					<p style={styles.text}>Posted by:  <a style={styles.link} href={video.user_url} target='_blank'>{video.user_name}</a></p>
+					<div style={styles.contentBox}>
+						<a href={video.url}><img src={video.thumbnail_large} style={styles.image} /></a>
+						<p style={styles.text}>{'Comments: ' + video.stats_number_of_comments} || {'Likes: ' + video.stats_number_of_likes} || {'Plays: ' + video.stats_number_of_plays} || {'Duration: ' + video.duration + ' seconds'}</p>
+						<p style={styles.text}>{'Tags: ' + video.tags}</p>
+						<p style={styles.text}>{'Uploaded: ' + video.upload_date}</p>
+						<p style={styles.text}>Posted by:  <a style={styles.link} href={video.user_url} target='_blank'>{video.user_name}</a></p>
+					</div>
 				</div>
 			);
 			
 		});
 		return <div>
-			<h3 style={styles.header} >Currently tuned to: <em>{this.props.channel}</em></h3>
+			<h3 style={styles.header} >tuned to: <em>{this.props.channel}</em></h3>
 			{videos}
 		</div>;
 	}
@@ -56,7 +58,7 @@ styles.listItem = {
 	color: '#d9d9d9'
 };
 
-styles.imageBox = {
+styles.contentBox = {
 	width: '60%',
 	margin: '0 auto'
 };
