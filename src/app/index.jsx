@@ -4,31 +4,45 @@ import VideoList from './components/VideoList.js';
 import Header from './components/Header.js';
 import xhr from './lib/xhr.js';
 
-// set base URL for authentication
-var authUrl = 'https://api.vimeo.com/oauth/authorize';
-authUrl += '?response_type=code';
-authUrl += '&client_id=9765dae2612e07ec845492c2a95459d2fdb54a87';
-authUrl += '&redirect_uri=http://localhost:3000/';
-authUrl += '&scope=interact';
-authUrl += '&state=12345'
-
 var App = React.createClass({
 	getInitialState() {
+		if (location.search !== ''){	// fires off when returning from authorization
+
+			// chunk out search params to only include their values
+			var searchParams = location.search.slice(1).split('&')
+				.map(param => param.split('=')[1]);
+
+			// first param is state, second param is the auth code
+			var state = JSON.parse(decodeURIComponent(searchParams[0]));
+			state.code = searchParams[1];
+
+			return state;
+		}
 		return {
 			loaded: false
 		}
 	},
+	parseAuthUrl() {
+		var authUrl = 'https://api.vimeo.com/oauth/authorize';
+		authUrl += '?response_type=code';
+		authUrl += '&client_id=9765dae2612e07ec845492c2a95459d2fdb54a87';
+		authUrl += '&redirect_uri=http://localhost:3000/';
+		authUrl += '&scope=interact';
+		authUrl += '&state=' + JSON.stringify(this.state);
+
+		return authUrl;
+	},
 	getData(url, channel) {
 		xhr.getJSON(url, (err, data) => {
+			if (err){
+				return this.setState({
+					error: 'That channel doesn\'t exist.'
+				});
+			}
 			console.log(data);
 			if (data.error){
 				return this.setState({
 					error: 'Woops, you haven\'t authenticated yet.'
-				});
-			}
-			if (err){
-				return this.setState({
-					error: 'That channel doesn\'t exist.'
 				});
 			}
 			this.setState({
@@ -50,6 +64,7 @@ var App = React.createClass({
 	},
 	render() {
 		console.log(this.state);
+
 		if (this.state.error){
 			return <div>
 				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
@@ -58,13 +73,13 @@ var App = React.createClass({
 		}
 		if (!this.state.loaded){
 			return <div>
-				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={authUrl} />
+				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={this.parseAuthUrl()} />
 				<h3>Enter a channel name.</h3>
 			</div>
 		}
 		return <div>
-			<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={authUrl} />
-			<VideoList list={this.state.list} channel={this.state.channel} authUrl={authUrl} />
+			<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={this.parseAuthUrl()} />
+			<VideoList list={this.state.list} channel={this.state.channel} />
 		</div>;
 	}
 });
