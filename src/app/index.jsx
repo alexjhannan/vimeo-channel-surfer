@@ -12,11 +12,13 @@ var App = React.createClass({
 			loaded: false
 		}
 	},
-	loadApi() {
-		xhr.getJSON(targetUrl, (err, data) => {
+	loadApi(url) {
+		xhr.getJSON(url, (err, data) => {
 			console.log(data);
 			if (err){
-				return console.log(err);
+				return this.setState({
+					loaded: false
+				});
 			}
 			this.setState({
 				loaded: true,
@@ -24,16 +26,20 @@ var App = React.createClass({
 			});
 		})
 	},
+	loadVideos(channel) {
+		var url = 'http://vimeo.com/api/v2/channel/' + channel + '/videos.json';
+		this.loadApi(url);
+	},
 	render() {
 		if (!this.state.loaded){
-			this.loadApi();
+			this.loadVideos('staffpicks');
 			return <div>
-				<Header />
+				<Header handleSubmit={this.loadVideos} />
 				<h3>Loading...</h3>
 			</div>
 		}
 		return <div>
-			<Header />
+			<Header handleSubmit={this.loadVideos} />
 			<VideoList list={this.state.list} />
 		</div>;
 	}

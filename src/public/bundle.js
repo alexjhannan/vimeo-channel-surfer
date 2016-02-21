@@ -55,11 +55,11 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 158);
 	
-	var _VideoList = __webpack_require__(/*! ./components/VideoList.js */ 160);
+	var _VideoList = __webpack_require__(/*! ./components/VideoList.js */ 159);
 	
 	var _VideoList2 = _interopRequireDefault(_VideoList);
 	
-	var _Header = __webpack_require__(/*! ./components/Header.js */ 162);
+	var _Header = __webpack_require__(/*! ./components/Header.js */ 160);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
@@ -78,13 +78,15 @@
 				loaded: false
 			};
 		},
-		loadApi: function loadApi() {
+		loadApi: function loadApi(url) {
 			var _this = this;
 	
-			_xhr2.default.getJSON(targetUrl, function (err, data) {
+			_xhr2.default.getJSON(url, function (err, data) {
 				console.log(data);
 				if (err) {
-					return console.log(err);
+					return _this.setState({
+						loaded: false
+					});
 				}
 				_this.setState({
 					loaded: true,
@@ -92,13 +94,17 @@
 				});
 			});
 		},
+		loadVideos: function loadVideos(channel) {
+			var url = 'http://vimeo.com/api/v2/channel/' + channel + '/videos.json';
+			this.loadApi(url);
+		},
 		render: function render() {
 			if (!this.state.loaded) {
-				this.loadApi();
+				this.loadVideos('staffpicks');
 				return _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(_Header2.default, null),
+					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadVideos }),
 					_react2.default.createElement(
 						'h3',
 						null,
@@ -109,7 +115,7 @@
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_Header2.default, null),
+				_react2.default.createElement(_Header2.default, { handleSubmit: this.loadVideos }),
 				_react2.default.createElement(_VideoList2.default, { list: this.state.list })
 			);
 		}
@@ -20193,8 +20199,7 @@
 
 
 /***/ },
-/* 159 */,
-/* 160 */
+/* 159 */
 /*!*****************************************!*\
   !*** ./src/app/components/VideoList.js ***!
   \*****************************************/
@@ -20310,6 +20315,53 @@
 	module.exports = VideoList;
 
 /***/ },
+/* 160 */
+/*!**************************************!*\
+  !*** ./src/app/components/Header.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(/*! react-dom */ 158);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Header = _react2.default.createClass({
+		displayName: 'Header',
+	
+		propTypes: {
+			handleSubmit: _react2.default.PropTypes.func
+		},
+		onSubmit: function onSubmit(e, data) {
+			e.preventDefault(); // prevent default form action
+			this.props.handleSubmit(this.refs.input.value); // redirect data to the parent component's function, passed in as a prop
+		},
+		render: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Vimeo Channeler'
+				),
+				_react2.default.createElement(
+					'form',
+					{ onSubmit: this.onSubmit },
+					_react2.default.createElement('input', { ref: 'input', type: 'text' })
+				)
+			);
+		}
+	});
+	
+	module.exports = Header;
+
+/***/ },
 /* 161 */
 /*!****************************!*\
   !*** ./src/app/lib/xhr.js ***!
@@ -20333,40 +20385,6 @@
 	  req.open('GET', url);
 	  req.send();
 	};
-
-/***/ },
-/* 162 */
-/*!**************************************!*\
-  !*** ./src/app/components/Header.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(/*! react-dom */ 158);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Header = _react2.default.createClass({
-		displayName: 'Header',
-		render: function render() {
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'h1',
-					null,
-					'Vimeo Channeler'
-				)
-			);
-		}
-	});
-	
-	module.exports = Header;
 
 /***/ }
 /******/ ]);
