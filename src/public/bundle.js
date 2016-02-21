@@ -20473,6 +20473,11 @@
 					'Vimeo Channel Surfer'
 				),
 				_react2.default.createElement(
+					'h4',
+					{ style: styles.warning },
+					'(content may be NSFW)'
+				),
+				_react2.default.createElement(
 					'div',
 					{ style: styles.btnBox },
 					buttons
@@ -20493,6 +20498,13 @@
 		textAlign: 'center',
 		fontFamily: 'Inconsolata'
 	};
+	
+	// when extended this kind of style, it needs to be copied as a new object
+	// otherwise both variables will refer to the same object
+	styles.warning = JSON.parse(JSON.stringify(styles.header));
+	
+	styles.warning.fontSize = '.75em';
+	styles.warning.margin = '-20px 0 10px';
 	
 	styles.btnBox = {
 		width: '100%',

@@ -23,6 +23,7 @@ var Header = React.createClass({
 		var buttons = categories.map(el => <button style={styles.btn} key={el} onClick={this.onClick.bind(null, el)}>{el}</button>);
 		return <div>
 			<h1 style={styles.header}>Vimeo Channel Surfer</h1>
+			<h4 style={styles.warning}>(content may be NSFW)</h4>
 			<div style={styles.btnBox}>{buttons}</div>
 			<form onSubmit={this.onSubmit}>
 				<input style={styles.search} ref="input" type="text" placeholder="search for channel by name"/>
@@ -38,6 +39,13 @@ styles.header = {
 	textAlign: 'center',
 	fontFamily: 'Inconsolata'
 };
+
+// when extended this kind of style, it needs to be copied as a new object
+// otherwise both variables will refer to the same object
+styles.warning = JSON.parse(JSON.stringify(styles.header));
+
+styles.warning.fontSize = '.75em';
+styles.warning.margin = '-20px 0 10px';
 
 styles.btnBox = {
 	width: '100%',
