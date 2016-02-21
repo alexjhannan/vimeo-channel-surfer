@@ -1,12 +1,15 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-var list = <li>thing</li>;
-
 var VideoList = React.createClass({
 	render() {
+		var videos = this.props.list.map(el => {
+			return <li key={el.name}>
+				{el.name}
+			</li>
+		});
 		return <ul>
-			{list}
+			{videos}
 		</ul>;
 	}
 });
