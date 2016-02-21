@@ -69,7 +69,13 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var targetUrl = 'http://vimeo.com/api/v2/channel/staffpicks/videos.json';
+	// set base URL for authentication
+	var authUrl = 'https://api.vimeo.com/oauth/authorize';
+	authUrl += '?response_type=code';
+	authUrl += '&client_id=9765dae2612e07ec845492c2a95459d2fdb54a87';
+	authUrl += '&redirect_uri=file:///Users/AlexMac/Projects/vimeo-project/src/index.html?';
+	authUrl += '&scope=interact';
+	authUrl += '&state=12345';
 	
 	var App = _react2.default.createClass({
 		displayName: 'App',
@@ -85,7 +91,7 @@
 				console.log(data);
 				if (data.error) {
 					return _this.setState({
-						error: 'Woops, your developer forgot to authenticate.'
+						error: 'Woops, you haven\'t authenticated yet.'
 					});
 				}
 				if (err) {
@@ -109,7 +115,7 @@
 		loadRandom: function loadRandom(category) {
 			// load a random channel (from a category button)
 			console.log('loading random');
-			var url = 'https://api.vimeo.com/categories/comedy/channels?page=1&per_page=20';
+			var url = 'https://api.vimeo.com/categories/comedy/channels';
 			this.getData(url, category);
 		},
 		render: function render() {
@@ -130,7 +136,7 @@
 				return _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
+					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom, authUrl: authUrl }),
 					_react2.default.createElement(
 						'h3',
 						null,
@@ -141,8 +147,8 @@
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
-				_react2.default.createElement(_VideoList2.default, { list: this.state.list, channel: this.state.channel })
+				_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom, authUrl: authUrl }),
+				_react2.default.createElement(_VideoList2.default, { list: this.state.list, channel: this.state.channel, authUrl: authUrl })
 			);
 		}
 	});
@@ -20393,7 +20399,8 @@
 	
 		propTypes: {
 			handleSubmit: _react2.default.PropTypes.func,
-			handleClick: _react2.default.PropTypes.func
+			handleClick: _react2.default.PropTypes.func,
+			authUrl: _react2.default.PropTypes.string
 		},
 		onSubmit: function onSubmit(event) {
 			event.preventDefault(); // prevent default form action
@@ -20403,13 +20410,16 @@
 		onClick: function onClick(category) {
 			this.props.handleClick(category);
 		},
+		onAuth: function onAuth() {
+			this.props.handleAuth();
+		},
 		render: function render() {
 			var _this = this;
 	
 			var buttons = categories.map(function (el) {
 				return _react2.default.createElement(
 					'button',
-					{ onClick: _this.onClick.bind(null, el) },
+					{ key: el, onClick: _this.onClick.bind(null, el) },
 					el
 				);
 			});
@@ -20420,6 +20430,11 @@
 					'h1',
 					null,
 					'Vimeo Channel Surfer'
+				),
+				_react2.default.createElement(
+					'a',
+					{ href: this.props.authUrl },
+					'Authorize to use Advanced Features'
 				),
 				buttons,
 				_react2.default.createElement(

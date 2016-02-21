@@ -4,7 +4,13 @@ import VideoList from './components/VideoList.js';
 import Header from './components/Header.js';
 import xhr from './lib/xhr.js';
 
-var targetUrl = 'http://vimeo.com/api/v2/channel/staffpicks/videos.json';
+// set base URL for authentication
+var authUrl = 'https://api.vimeo.com/oauth/authorize';
+authUrl += '?response_type=code';
+authUrl += '&client_id=9765dae2612e07ec845492c2a95459d2fdb54a87';
+authUrl += '&redirect_uri=file:///Users/AlexMac/Projects/vimeo-project/src/index.html?';
+authUrl += '&scope=interact';
+authUrl += '&state=12345'
 
 var App = React.createClass({
 	getInitialState() {
@@ -17,7 +23,7 @@ var App = React.createClass({
 			console.log(data);
 			if (data.error){
 				return this.setState({
-					error: 'Woops, your developer forgot to authenticate.'
+					error: 'Woops, you haven\'t authenticated yet.'
 				});
 			}
 			if (err){
@@ -39,7 +45,7 @@ var App = React.createClass({
 	},
 	loadRandom(category){	// load a random channel (from a category button)
 		console.log('loading random');
-		var url = 'https://api.vimeo.com/categories/comedy/channels?page=1&per_page=20';
+		var url = 'https://api.vimeo.com/categories/comedy/channels';
 		this.getData(url, category);
 	},
 	render() {
@@ -52,13 +58,13 @@ var App = React.createClass({
 		}
 		if (!this.state.loaded){
 			return <div>
-				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
+				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={authUrl} />
 				<h3>Enter a channel name.</h3>
 			</div>
 		}
 		return <div>
-			<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
-			<VideoList list={this.state.list} channel={this.state.channel} />
+			<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} authUrl={authUrl} />
+			<VideoList list={this.state.list} channel={this.state.channel} authUrl={authUrl} />
 		</div>;
 	}
 });
