@@ -85,13 +85,14 @@
 				console.log(data);
 				if (err) {
 					return _this.setState({
-						loaded: false
+						error: 'That channel does not exist.'
 					});
 				}
 				_this.setState({
 					loaded: true,
 					list: data,
-					channel: channel
+					channel: channel,
+					error: null
 				});
 			});
 		},
@@ -100,8 +101,8 @@
 			this.loadApi(url, channel);
 		},
 		render: function render() {
-			if (!this.state.loaded) {
-				this.loadVideos('staffpicks');
+			console.log(this.state);
+			if (this.state.error) {
 				return _react2.default.createElement(
 					'div',
 					null,
@@ -109,7 +110,19 @@
 					_react2.default.createElement(
 						'h3',
 						null,
-						'Loading...'
+						this.state.error
+					)
+				);
+			}
+			if (!this.state.loaded) {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadVideos }),
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Enter a channel name.'
 					)
 				);
 			}
@@ -20351,6 +20364,7 @@
 		onSubmit: function onSubmit(e, data) {
 			e.preventDefault(); // prevent default form action
 			this.props.handleSubmit(this.refs.input.value); // redirect data to the parent component's function, passed in as a prop
+			this.refs.input.value = '';
 		},
 		render: function render() {
 			return _react2.default.createElement(
@@ -20359,12 +20373,12 @@
 				_react2.default.createElement(
 					'h1',
 					null,
-					'Vimeo Channeler'
+					'Vimeo Channel Surfer'
 				),
 				_react2.default.createElement(
 					'form',
 					{ onSubmit: this.onSubmit },
-					_react2.default.createElement('input', { ref: 'input', type: 'text' })
+					_react2.default.createElement('input', { ref: 'input', type: 'text', placeholder: 'Search for channel...' })
 				)
 			);
 		}

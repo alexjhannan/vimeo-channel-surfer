@@ -17,13 +17,14 @@ var App = React.createClass({
 			console.log(data);
 			if (err){
 				return this.setState({
-					loaded: false
+					error: 'That channel does not exist.'
 				});
 			}
 			this.setState({
 				loaded: true,
 				list: data,
-				channel
+				channel,
+				error: null
 			});
 		})
 	},
@@ -32,11 +33,17 @@ var App = React.createClass({
 		this.loadApi(url, channel);
 	},
 	render() {
-		if (!this.state.loaded){
-			this.loadVideos('staffpicks');
+		console.log(this.state);
+		if (this.state.error){
 			return <div>
 				<Header handleSubmit={this.loadVideos} />
-				<h3>Loading...</h3>
+				<h3>{this.state.error}</h3>
+			</div>
+		}
+		if (!this.state.loaded){
+			return <div>
+				<Header handleSubmit={this.loadVideos} />
+				<h3>Enter a channel name.</h3>
 			</div>
 		}
 		return <div>
