@@ -7,17 +7,18 @@ import xhr from './lib/xhr.js';
 var App = React.createClass({
 	getInitialState() {
 		return {
-			loaded: false
+			init: true
 		}
 	},
 	getData(url, channel) {
 		this.setState({
-			loaded: false
+			loaded: false,
+			init: false
 		});
 		xhr.getJSON(url, (err, data) => {
 			if (err){		// if error is received
 				return this.setState({
-					error: 'That channel doesn\'t exist.'
+					error: true
 				});
 			}
 			console.log(data);
@@ -25,15 +26,22 @@ var App = React.createClass({
 			if (!data.length){
 				var channels = data.data;
 				var randomIndex = Math.round(Math.random()*channels.length);
-				channel = channels[randomIndex].link.split('/').splice(-1).toString();
+				channel = channels[randomIndex];
+				if (!channel.link) {
+					this.setState({
+						error: true
+					})
+				}
+				channel = channel.link.split('/').splice(-1).toString();
 				return this.loadChannel(channel);
+			} else {
+				this.setState({
+					loaded: true,
+					list: data,
+					channel,
+					error: null
+				});
 			}
-			this.setState({
-				loaded: true,
-				list: data,
-				channel,
-				error: null
-			});
 		})
 	},
 	loadChannel(channel) {	// load a specific channel (from search bar input)
@@ -47,10 +55,17 @@ var App = React.createClass({
 	render() {
 		console.log(this.state);
 
+		if(this.state.init){
+			return <div>
+				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
+				<h3>Enter a channel name in the search bar, or click on a button to find a random channel.</h3>
+			</div>
+		}
 		if (this.state.error){
 			return <div>
 				<Header handleSubmit={this.loadChannel} handleClick={this.loadRandom} />
-				<h3>{this.state.error}</h3>
+				<h3>pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt</h3>
+				<p>That channel was not found. I'm sorry, Dave.</p>
 			</div>
 		}
 		if (!this.state.loaded){

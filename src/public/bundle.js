@@ -73,20 +73,21 @@
 		displayName: 'App',
 		getInitialState: function getInitialState() {
 			return {
-				loaded: false
+				init: true
 			};
 		},
 		getData: function getData(url, channel) {
 			var _this = this;
 	
 			this.setState({
-				loaded: false
+				loaded: false,
+				init: false
 			});
 			_xhr2.default.getJSON(url, function (err, data) {
 				if (err) {
 					// if error is received
 					return _this.setState({
-						error: 'That channel doesn\'t exist.'
+						error: true
 					});
 				}
 				console.log(data);
@@ -94,15 +95,22 @@
 				if (!data.length) {
 					var channels = data.data;
 					var randomIndex = Math.round(Math.random() * channels.length);
-					channel = channels[randomIndex].link.split('/').splice(-1).toString();
+					channel = channels[randomIndex];
+					if (!channel.link) {
+						_this.setState({
+							error: true
+						});
+					}
+					channel = channel.link.split('/').splice(-1).toString();
 					return _this.loadChannel(channel);
+				} else {
+					_this.setState({
+						loaded: true,
+						list: data,
+						channel: channel,
+						error: null
+					});
 				}
-				_this.setState({
-					loaded: true,
-					list: data,
-					channel: channel,
-					error: null
-				});
 			});
 		},
 		loadChannel: function loadChannel(channel) {
@@ -118,6 +126,18 @@
 		render: function render() {
 			console.log(this.state);
 	
+			if (this.state.init) {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(_Header2.default, { handleSubmit: this.loadChannel, handleClick: this.loadRandom }),
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Enter a channel name in the search bar, or click on a button to find a random channel.'
+					)
+				);
+			}
 			if (this.state.error) {
 				return _react2.default.createElement(
 					'div',
@@ -126,7 +146,12 @@
 					_react2.default.createElement(
 						'h3',
 						null,
-						this.state.error
+						'pshbzztpshbzzt ---STATIC--- pshbzztpshbzzt'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'That channel was not found. I\'m sorry, Dave.'
 					)
 				);
 			}
