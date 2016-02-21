@@ -8,6 +8,9 @@
     "build": "webpack -p",
     "start": "node server.js"
   },
+  "engines": {
+    "node": "5.2.0"
+  },
   "author": "Alex Hannan",
   "license": "ISC",
   "dependencies": {
