@@ -17,7 +17,7 @@ var App = React.createClass({
 			console.log(data);
 			if (err){
 				return this.setState({
-					error: 'That channel does not exist.'
+					error: 'That channel doesn\'t exist.'
 				});
 			}
 			this.setState({

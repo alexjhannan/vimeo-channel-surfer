@@ -85,7 +85,7 @@
 				console.log(data);
 				if (err) {
 					return _this.setState({
-						error: 'That channel does not exist.'
+						error: 'That channel doesn\'t exist.'
 					});
 				}
 				_this.setState({
@@ -20237,6 +20237,20 @@
 			channel: _react2.default.PropTypes.string
 		},
 		render: function render() {
+			if (this.props.list.length === 0) {
+				return _react2.default.createElement(
+					'h3',
+					null,
+					'Channel ',
+					_react2.default.createElement(
+						'em',
+						null,
+						this.props.channel
+					),
+					' appears to be empty...'
+				);
+			}
+	
 			var videos = this.props.list.map(function (video) {
 				// parses the given video list out into UI components
 				// set default values for some props
@@ -20308,7 +20322,12 @@
 				_react2.default.createElement(
 					'h3',
 					null,
-					this.props.channel
+					'Currently tuned to: ',
+					_react2.default.createElement(
+						'em',
+						null,
+						this.props.channel
+					)
 				),
 				_react2.default.createElement(
 					'ul',

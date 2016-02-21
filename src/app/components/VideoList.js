@@ -7,6 +7,10 @@ var VideoList = React.createClass({
 		channel: React.PropTypes.string
 	},
 	render() {
+		if (this.props.list.length === 0){
+			return <h3>Channel <em>{this.props.channel}</em> appears to be empty...</h3>
+		}
+
 		var videos = this.props.list.map(video => {		// parses the given video list out into UI components
 			// set default values for some props
 			video.stats_number_of_plays = video.stats_number_of_plays || 0;
@@ -31,7 +35,7 @@ var VideoList = React.createClass({
 			
 		});
 		return <div>
-			<h3>{this.props.channel}</h3>
+			<h3>Currently tuned to: <em>{this.props.channel}</em></h3>
 			<ul>
 				{videos}
 			</ul>
