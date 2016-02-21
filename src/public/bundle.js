@@ -20176,6 +20176,10 @@
 	
 	var VideoList = _react2.default.createClass({
 		displayName: 'VideoList',
+	
+		propTypes: {
+			list: _react2.default.PropTypes.array
+		},
 		render: function render() {
 			var videos = this.props.list.map(function (el) {
 				return _react2.default.createElement(
