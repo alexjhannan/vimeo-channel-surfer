@@ -91,6 +91,12 @@
 					});
 				}
 				console.log(data);
+				if (data.length === 0) {
+					// catches edge case where an array is returned, but the array is empty
+					return _this.setState({
+						error: true
+					});
+				}
 				// when called with a category, data will be an object, not an array
 				// parse the resulting object to find a random channel and recurse
 				if (!data.length) {
