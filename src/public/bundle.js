@@ -55,6 +55,10 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 158);
 	
+	var _VideoList = __webpack_require__(/*! ./VideoList.js */ 159);
+	
+	var _VideoList2 = _interopRequireDefault(_VideoList);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var App = _react2.default.createClass({
@@ -67,7 +71,8 @@
 					'h1',
 					null,
 					'Hello from React'
-				)
+				),
+				_react2.default.createElement(_VideoList2.default, null)
 			);
 		}
 	});
@@ -20148,6 +20153,42 @@
 	
 	module.exports = __webpack_require__(/*! react/lib/ReactDOM */ 3);
 
+
+/***/ },
+/* 159 */
+/*!******************************!*\
+  !*** ./src/app/VideoList.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(/*! react-dom */ 158);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var list = _react2.default.createElement(
+		'li',
+		null,
+		'thing'
+	);
+	
+	var VideoList = _react2.default.createClass({
+		displayName: 'VideoList',
+		render: function render() {
+			return _react2.default.createElement(
+				'ul',
+				null,
+				list
+			);
+		}
+	});
+	
+	module.exports = VideoList;
 
 /***/ }
 /******/ ]);
