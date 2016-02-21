@@ -78,7 +78,7 @@
 				loaded: false
 			};
 		},
-		loadApi: function loadApi(url) {
+		loadApi: function loadApi(url, channel) {
 			var _this = this;
 	
 			_xhr2.default.getJSON(url, function (err, data) {
@@ -90,13 +90,14 @@
 				}
 				_this.setState({
 					loaded: true,
-					list: data
+					list: data,
+					channel: channel
 				});
 			});
 		},
 		loadVideos: function loadVideos(channel) {
 			var url = 'http://vimeo.com/api/v2/channel/' + channel + '/videos.json';
-			this.loadApi(url);
+			this.loadApi(url, channel);
 		},
 		render: function render() {
 			if (!this.state.loaded) {
@@ -116,7 +117,7 @@
 				'div',
 				null,
 				_react2.default.createElement(_Header2.default, { handleSubmit: this.loadVideos }),
-				_react2.default.createElement(_VideoList2.default, { list: this.state.list })
+				_react2.default.createElement(_VideoList2.default, { list: this.state.list, channel: this.state.channel })
 			);
 		}
 	});
@@ -20219,7 +20220,8 @@
 		displayName: 'VideoList',
 	
 		propTypes: {
-			list: _react2.default.PropTypes.array
+			list: _react2.default.PropTypes.array,
+			channel: _react2.default.PropTypes.string
 		},
 		render: function render() {
 			var videos = this.props.list.map(function (video) {
@@ -20288,9 +20290,18 @@
 				);
 			});
 			return _react2.default.createElement(
-				'ul',
+				'div',
 				null,
-				videos
+				_react2.default.createElement(
+					'h3',
+					null,
+					this.props.channel
+				),
+				_react2.default.createElement(
+					'ul',
+					null,
+					videos
+				)
 			);
 		}
 	});

@@ -3,7 +3,8 @@ import {render} from 'react-dom';
 
 var VideoList = React.createClass({
 	propTypes: {
-		list: React.PropTypes.array
+		list: React.PropTypes.array,
+		channel: React.PropTypes.string
 	},
 	render() {
 		var videos = this.props.list.map(video => {		// parses the given video list out into UI components
@@ -29,9 +30,12 @@ var VideoList = React.createClass({
 			);
 			
 		});
-		return <ul>
-			{videos}
-		</ul>;
+		return <div>
+			<h3>{this.props.channel}</h3>
+			<ul>
+				{videos}
+			</ul>
+		</div>;
 	}
 });
 
