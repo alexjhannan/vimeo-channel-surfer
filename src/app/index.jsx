@@ -13,6 +13,7 @@ var App = React.createClass({
 	},
 	loadApi() {
 		xhr.getJSON(targetUrl, (err, data) => {
+			console.log(data);
 			if (err){
 				return console.log(err);
 			}

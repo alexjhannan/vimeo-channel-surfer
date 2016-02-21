@@ -78,6 +78,7 @@
 			var _this = this;
 	
 			_xhr2.default.getJSON(targetUrl, function (err, data) {
+				console.log(data);
 				if (err) {
 					return console.log(err);
 				}
@@ -20211,11 +20212,69 @@
 			list: _react2.default.PropTypes.array
 		},
 		render: function render() {
-			var videos = this.props.list.map(function (el) {
+			var videos = this.props.list.map(function (video) {
+				// parses the given video list out into UI components
+				// set default values for some props
+				video.stats_number_of_plays = video.stats_number_of_plays || 0;
+				video.stats_number_of_comments = video.stats_number_of_comments || 0;
+				video.stats_number_of_likes = video.stats_number_of_likes || 0;
+				video.tags = video.tags || 'None';
+	
 				return _react2.default.createElement(
 					'li',
-					{ key: el.id },
-					el.id
+					{ key: video.id, style: styles.listItem },
+					_react2.default.createElement('img', { src: video.thumbnail_medium, style: styles.thumbnail }),
+					_react2.default.createElement(
+						'h3',
+						null,
+						video.title
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Comments: ' + video.stats_number_of_comments
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Likes: ' + video.stats_number_of_likes
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Plays: ' + video.stats_number_of_plays
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Duration: ' + video.duration + ' seconds'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Tags: ' + video.tags
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Uploaded: ' + video.upload_date
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: video.url },
+						'Link'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Posted By:  ',
+						_react2.default.createElement(
+							'a',
+							{ href: video.user_url, target: '_blank' },
+							_react2.default.createElement('img', { src: video.user_portrait_small }),
+							video.user_name
+						)
+					)
 				);
 			});
 			return _react2.default.createElement(
@@ -20225,6 +20284,23 @@
 			);
 		}
 	});
+	
+	// styles are built into the component, here
+	var styles = {};
+	
+	styles.listItem = {
+		border: '2px solid black',
+		borderRadius: '20px',
+		padding: '20px',
+		listStyle: 'none',
+		marginTop: '20px',
+		clear: 'both'
+	};
+	
+	styles.thumbnail = {
+		width: '200px',
+		float: 'right'
+	};
 	
 	module.exports = VideoList;
 
