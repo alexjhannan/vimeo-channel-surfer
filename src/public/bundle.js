@@ -61,9 +61,13 @@
 		displayName: 'App',
 		render: function render() {
 			return _react2.default.createElement(
-				'h1',
+				'div',
 				null,
-				'Hello from React'
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Hello from React'
+				)
 			);
 		}
 	});
