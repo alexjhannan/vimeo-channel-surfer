@@ -89,7 +89,8 @@ var App = React.createClass({
 var styles = {};
 
 styles.text = {
-	textAlign: 'center'
+	textAlign: 'center',
+	fontFamily: 'Inconsolata'
 }
 
 render(<App/>, document.getElementById('container'));

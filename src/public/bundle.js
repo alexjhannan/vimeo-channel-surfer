@@ -180,7 +180,8 @@
 	var styles = {};
 	
 	styles.text = {
-		textAlign: 'center'
+		textAlign: 'center',
+		fontFamily: 'Inconsolata'
 	};
 	
 	(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('container'));
@@ -20310,55 +20311,48 @@
 				return _react2.default.createElement(
 					'li',
 					{ key: video.id, style: styles.listItem },
-					_react2.default.createElement('img', { src: video.thumbnail_medium, style: styles.thumbnail }),
 					_react2.default.createElement(
 						'h3',
-						null,
+						{ style: styles.text },
 						video.title
 					),
 					_react2.default.createElement(
-						'p',
-						null,
-						'Comments: ' + video.stats_number_of_comments
+						'div',
+						{ style: styles.imageBox },
+						_react2.default.createElement(
+							'a',
+							{ href: video.url },
+							_react2.default.createElement('img', { src: video.thumbnail_large, style: styles.image })
+						)
 					),
 					_react2.default.createElement(
 						'p',
-						null,
-						'Likes: ' + video.stats_number_of_likes
-					),
-					_react2.default.createElement(
-						'p',
-						null,
-						'Plays: ' + video.stats_number_of_plays
-					),
-					_react2.default.createElement(
-						'p',
-						null,
+						{ style: styles.text },
+						'Comments: ' + video.stats_number_of_comments,
+						' || ',
+						'Likes: ' + video.stats_number_of_likes,
+						' || ',
+						'Plays: ' + video.stats_number_of_plays,
+						' || ',
 						'Duration: ' + video.duration + ' seconds'
 					),
 					_react2.default.createElement(
 						'p',
-						null,
+						{ style: styles.text },
 						'Tags: ' + video.tags
 					),
 					_react2.default.createElement(
 						'p',
-						null,
+						{ style: styles.text },
 						'Uploaded: ' + video.upload_date
 					),
 					_react2.default.createElement(
-						'a',
-						{ href: video.url },
-						'Link'
-					),
-					_react2.default.createElement(
 						'p',
-						null,
-						'Posted By:  ',
+						{ style: styles.text },
+						'Posted by:  ',
 						_react2.default.createElement(
 							'a',
-							{ href: video.user_url, target: '_blank' },
-							_react2.default.createElement('img', { src: video.user_portrait_small }),
+							{ style: styles.link, href: video.user_url, target: '_blank' },
 							video.user_name
 						)
 					)
@@ -20369,7 +20363,7 @@
 				null,
 				_react2.default.createElement(
 					'h3',
-					null,
+					{ style: styles.header },
 					'Currently tuned to: ',
 					_react2.default.createElement(
 						'em',
@@ -20377,11 +20371,7 @@
 						this.props.channel
 					)
 				),
-				_react2.default.createElement(
-					'ul',
-					null,
-					videos
-				)
+				videos
 			);
 		}
 	});
@@ -20389,18 +20379,38 @@
 	// styles are built into the component, here
 	var styles = {};
 	
+	styles.header = {
+		textAlign: 'center',
+		fontFamily: 'Inconsolata'
+	};
+	
 	styles.listItem = {
 		border: '2px solid black',
 		borderRadius: '20px',
-		padding: '20px',
+		padding: '0 20px 0',
 		listStyle: 'none',
 		marginTop: '20px',
-		clear: 'both'
+		clear: 'both',
+		backgroundColor: '#222',
+		color: '#d9d9d9'
 	};
 	
-	styles.thumbnail = {
-		width: '200px',
-		float: 'right'
+	styles.imageBox = {
+		width: '60%',
+		margin: '0 auto'
+	};
+	
+	styles.image = {
+		width: '100%'
+	};
+	
+	styles.text = {
+		textAlign: 'center',
+		fontFamily: 'Inconsolata'
+	};
+	
+	styles.link = {
+		color: '#cd5c5c'
 	};
 	
 	module.exports = VideoList;

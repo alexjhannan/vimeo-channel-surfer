@@ -20,25 +20,19 @@ var VideoList = React.createClass({
 
 			return (
 				<li key={video.id} style={styles.listItem}>
-					<img src={video.thumbnail_medium} style={styles.thumbnail} />
-					<h3>{video.title}</h3>
-					<p>{'Comments: ' + video.stats_number_of_comments}</p>
-					<p>{'Likes: ' + video.stats_number_of_likes}</p>
-					<p>{'Plays: ' + video.stats_number_of_plays}</p>
-					<p>{'Duration: ' + video.duration + ' seconds'}</p>
-					<p>{'Tags: ' + video.tags}</p>
-					<p>{'Uploaded: ' + video.upload_date}</p>
-					<a href={video.url}>Link</a>
-					<p>Posted By:  <a href={video.user_url} target='_blank'><img src={video.user_portrait_small}></img>{video.user_name}</a></p>
+					<h3 style={styles.text}>{video.title}</h3>
+					<div style={styles.imageBox}><a href={video.url}><img src={video.thumbnail_large} style={styles.image} /></a></div>
+					<p style={styles.text}>{'Comments: ' + video.stats_number_of_comments} || {'Likes: ' + video.stats_number_of_likes} || {'Plays: ' + video.stats_number_of_plays} || {'Duration: ' + video.duration + ' seconds'}</p>
+					<p style={styles.text}>{'Tags: ' + video.tags}</p>
+					<p style={styles.text}>{'Uploaded: ' + video.upload_date}</p>
+					<p style={styles.text}>Posted by:  <a style={styles.link} href={video.user_url} target='_blank'>{video.user_name}</a></p>
 				</li>
 			);
 			
 		});
 		return <div>
-			<h3>Currently tuned to: <em>{this.props.channel}</em></h3>
-			<ul>
-				{videos}
-			</ul>
+			<h3 style={styles.header} >Currently tuned to: <em>{this.props.channel}</em></h3>
+			{videos}
 		</div>;
 	}
 });
@@ -46,18 +40,38 @@ var VideoList = React.createClass({
 // styles are built into the component, here
 var styles = {};
 
+styles.header = {
+	textAlign: 'center',
+	fontFamily: 'Inconsolata'
+};
+
 styles.listItem = {
 	border: '2px solid black',
 	borderRadius: '20px',
-	padding: '20px',
+	padding: '0 20px 0',
 	listStyle: 'none',
 	marginTop: '20px',
-	clear: 'both'
-}
+	clear: 'both',
+	backgroundColor: '#222',
+	color: '#d9d9d9'
+};
 
-styles.thumbnail = {
-	width: '200px',
-	float: 'right'
+styles.imageBox = {
+	width: '60%',
+	margin: '0 auto'
+};
+
+styles.image = {
+	width: '100%'
+};
+
+styles.text = {
+	textAlign: 'center',
+	fontFamily: 'Inconsolata'
+};
+
+styles.link = {
+	color: '#cd5c5c'
 }
 
 module.exports = VideoList;
