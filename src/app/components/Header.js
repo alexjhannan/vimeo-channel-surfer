@@ -20,15 +20,50 @@ var Header = React.createClass({
 		this.props.handleAuth();
 	},
 	render() {
-		var buttons = categories.map(el => <button key={el} onClick={this.onClick.bind(null, el)}>{el}</button>);
+		var buttons = categories.map(el => <button style={styles.btn} key={el} onClick={this.onClick.bind(null, el)}>{el}</button>);
 		return <div>
-			<h1>Vimeo Channel Surfer</h1>
-			{buttons}
+			<h1 style={styles.header}>Vimeo Channel Surfer</h1>
+			<div style={styles.btnBox}>{buttons}</div>
 			<form onSubmit={this.onSubmit}>
-				<input ref="input" type="text" placeholder="Search for channel..."/>
+				<input style={styles.search} ref="input" type="text" placeholder="Search for channel..."/>
 			</form>
 		</div>
 	}
 });
+
+// styles are built into the component, here
+var styles = {};
+
+styles.header = {
+	textAlign: 'center',
+	fontFamily: 'Inconsolata'
+};
+
+styles.btnBox = {
+	width: '100%',
+	textAlign: 'center'
+};
+
+styles.btn = {
+	border: '1px solid #111', 
+	borderRadius: '5px',
+	width: '150px',
+	height: '30px',
+	cursor: 'pointer',
+	fontFamily: 'Inconsolata',
+	margin: '2px'
+};
+
+styles.search = {
+	width: '300px',
+	textAlign: 'center',
+	margin: '0 auto',
+	display: 'block',
+	marginTop: '20px',
+	height: '20px',
+	padding: '5px',
+	border: '2px solid black',
+	borderRadius: '5px'
+};
 
 module.exports = Header;

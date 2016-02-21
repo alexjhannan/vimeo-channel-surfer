@@ -22,19 +22,21 @@ var App = React.createClass({
 				});
 			}
 			console.log(data);
-			// when called with a category, parse the resulting object
+			// when called with a category, data will be an object, not an array
+			// parse the resulting object to find a random channel and recurse
 			if (!data.length){
 				var channels = data.data;
 				var randomIndex = Math.round(Math.random()*channels.length);
 				channel = channels[randomIndex];
-				if (!channel.link) {
+				if (!channel.link) {	// handles edge case where a random channel element doesn't have a link
 					this.setState({
 						error: true
 					})
 				}
-				channel = channel.link.split('/').splice(-1).toString();
-				return this.loadChannel(channel);
+				channel = channel.link.split('/').splice(-1).toString(); // rip the channel name off of the provided link
+				return this.loadChannel(channel);	// recurse to load that channel
 			} else {
+				// if data received is a channel, set the state to hold a list of its videos
 				this.setState({
 					loaded: true,
 					list: data,

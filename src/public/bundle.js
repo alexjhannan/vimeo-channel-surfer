@@ -91,26 +91,29 @@
 					});
 				}
 				console.log(data);
-				// when called with a category, parse the resulting object
+				// when called with a category, data will be an object, not an array
+				// parse the resulting object to find a random channel and recurse
 				if (!data.length) {
 					var channels = data.data;
 					var randomIndex = Math.round(Math.random() * channels.length);
 					channel = channels[randomIndex];
 					if (!channel.link) {
+						// handles edge case where a random channel element doesn't have a link
 						_this.setState({
 							error: true
 						});
 					}
-					channel = channel.link.split('/').splice(-1).toString();
-					return _this.loadChannel(channel);
+					channel = channel.link.split('/').splice(-1).toString(); // rip the channel name off of the provided link
+					return _this.loadChannel(channel); // recurse to load that channel
 				} else {
-					_this.setState({
-						loaded: true,
-						list: data,
-						channel: channel,
-						error: null
-					});
-				}
+						// if data received is a channel, set the state to hold a list of its videos
+						_this.setState({
+							loaded: true,
+							list: data,
+							channel: channel,
+							error: null
+						});
+					}
 			});
 		},
 		loadChannel: function loadChannel(channel) {
@@ -20433,7 +20436,7 @@
 			var buttons = categories.map(function (el) {
 				return _react2.default.createElement(
 					'button',
-					{ key: el, onClick: _this.onClick.bind(null, el) },
+					{ style: styles.btn, key: el, onClick: _this.onClick.bind(null, el) },
 					el
 				);
 			});
@@ -20442,18 +20445,57 @@
 				null,
 				_react2.default.createElement(
 					'h1',
-					null,
+					{ style: styles.header },
 					'Vimeo Channel Surfer'
 				),
-				buttons,
+				_react2.default.createElement(
+					'div',
+					{ style: styles.btnBox },
+					buttons
+				),
 				_react2.default.createElement(
 					'form',
 					{ onSubmit: this.onSubmit },
-					_react2.default.createElement('input', { ref: 'input', type: 'text', placeholder: 'Search for channel...' })
+					_react2.default.createElement('input', { style: styles.search, ref: 'input', type: 'text', placeholder: 'Search for channel...' })
 				)
 			);
 		}
 	});
+	
+	// styles are built into the component, here
+	var styles = {};
+	
+	styles.header = {
+		textAlign: 'center',
+		fontFamily: 'Inconsolata'
+	};
+	
+	styles.btnBox = {
+		width: '100%',
+		textAlign: 'center'
+	};
+	
+	styles.btn = {
+		border: '1px solid #111',
+		borderRadius: '5px',
+		width: '150px',
+		height: '30px',
+		cursor: 'pointer',
+		fontFamily: 'Inconsolata',
+		margin: '2px'
+	};
+	
+	styles.search = {
+		width: '300px',
+		textAlign: 'center',
+		margin: '0 auto',
+		display: 'block',
+		marginTop: '20px',
+		height: '20px',
+		padding: '5px',
+		border: '2px solid black',
+		borderRadius: '5px'
+	};
 	
 	module.exports = Header;
 
